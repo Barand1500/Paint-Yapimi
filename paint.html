@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title> Paint </title>
+	<style>
+		#tablo{
+			border: brown 10px ridge;
+			margin-top: 25px;
+		}
+	</style>
+</head>
+<body>
+
+    Kalem Kalınlığı: 
+	<select name="" id="Kalinlik" onchange="KalemKalinlik()"> 
+		<option value="1"> Çok İnce </option> 
+		<option value="3"> İnce </option> 
+		<option value="7"> Normal </option> 
+		<option value="12"> Kalın </option> 
+		<option value="15"> Çok Kalın </option>
+	</select>
+	
+    Kalem Rengi: 
+	<select name="" id="KalemRenk" onchange="KalemRengi()"> 
+		<option value="black"> Siyah </option> <option value="red"> Kırmızı </option> 
+		<option value="yellow"> Sarı </option> <option value="blue"> Mavi </option> 
+		<option value="green"> Yeşil </option> <option value="white"> Beyaz </option> 
+	</select>
+	
+    Zemin Rengi: 
+	<select name="" id="ZeminRenk" onchange="ZeminRengi()"> 
+		<option value="black"> Siyah </option> <option value="red"> Kırmızı </option> 
+		<option value="yellow"> Sarı </option> <option value="blue"> Mavi </option> 
+		<option value="green"> Yeşil </option> <option value="white"> Beyaz </option> 
+	</select>
+	
+    <button onclick="Temizle()"> Temizle </button>
+	<br/>
+
+    <canvas id="tablo" onmousedown="Basla(event)" onmouseup="Bitir()"  onmousemove="Ciz(event)"> </canvas>
+
+	<script type="text/javascript">
+		var kalinlik=document.getElementById("Kalinlik");
+        var kalemrenk=document.getElementById("KalemRenk");
+        var zeminrenk=document.getElementById("ZeminRenk");
+        var tablo=document.getElementById("tablo");
+
+        var canvas=tablo.getContext("2d");
+        tablo.width=window.innerWidth-100;
+        tablo.height=window.innerHeight-100;
+
+        var cizgi=false;
+        var x1,y1,x2,y2;
+
+function KalemKalinlik(){
+    canvas.lineWidth=kalinlik.value;
+}
+
+function KalemRengi(){
+    canvas.strokeStyle=kalemrenk.value;
+}
+
+function ZeminRengi(){
+    canvas.fillStyle=zeminrenk.value;
+    canvas.fillRect(0,0,tablo.width,tablo.height);
+}
+
+function Temizle(){
+    canvas.clearRect(0,0,tablo.width,tablo.height);
+}
+
+function Basla(event){
+    cizgi=true
+    x1=event.clientX;
+    y1=event.clientY;
+
+    canvas.beginPath();
+    canvas.moveTo(x1,y1);
+}
+
+function Ciz(event){
+    if(cizgi=true){
+        x2=event.clientX;
+        y2=event.clientY;
+        canvas.lineTo(x2,y2)
+        canvas.stroke();
+    }
+}
+
+
+function Bitir(){
+    cizgi=false;
+    canvas.closePath();
+}
+
+	</script>
+</body>
+</html>
